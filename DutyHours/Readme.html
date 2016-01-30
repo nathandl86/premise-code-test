@@ -1,0 +1,58 @@
+﻿<h1>Duty Hours App Overview</h1>
+<p>This is an application to track duty hours for Residents at medical institutions to 
+ensure compliance with ACGME rules.</p>
+<h3>Building Process</h3>
+<p>I've begun the process of building this application. The steps I'm breaking it down
+into are going to be as follows:</p>
+<h4>Initial Steps</h4>
+<ol>
+<li>
+Scaffolding the app's solution. This includes:
+<ul>
+<li>Setup of projects I know will be needed</li>
+<li>Pulling in Nuget packages that will be used</li>
+<li>Adding client libraries</li>
+<li>Stubbing out the setup of Autofac for IoC</li>
+</ul>
+</li>
+<li>Designing the backend data model to support the application</li>
+<li>Define and build the data layer code</li>
+<li>Define and stub the API interactions</li>
+<li>
+From this point the application should be setup nicely so that remaining modules
+of work should largely be capable of being worked independently and in parallel. 
+Those other pieces/modules are: 
+<ul>
+<li>
+Building rules engine to process during analysis of Resident duty hours to 
+ensure compliance.
+</li>
+<li>Building UI component for Resident calendar</li>
+<li>Building UI component for Resident time/shift entry</li>
+<li>
+Building UI component for admin users to be able to run analysis for 1 -&gt; many<br />
+Residents
+</li>
+</ul>
+</li>
+</ol>
+<h4>Upon completion of the first set of modules:</h4>
+<ol>
+<li>Build UI component to output analysis details to admins and Residents</li>
+<li>
+Integration of the resident calendar module into the analysis page to 
+    show details on broken compliance rules
+</li>
+</ol>
+<h3>Next Steps</h3>
+<ol>
+<li>Refactor away from built-in ASP.NET bundling and mification to gulp</li>
+<li>
+Add authentication and authorization rules to application to ensure:
+<ul>
+<li>Resident's who aren't also Admins, cannot run analysis on any other Residents</li>
+<li>Admins's who aren't residents, cannot enter time/shifts</li>
+<li>Web Apis needing authorization or decorated with <code>[Authorize]</code> attribute</li>
+</ul>
+</li>
+</ol>
