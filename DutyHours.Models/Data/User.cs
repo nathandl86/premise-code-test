@@ -1,17 +1,16 @@
-namespace DutyHours.Data.Entities
+namespace DutyHours.Models.Data
 {
     using System.Collections.Generic;
     using System.ComponentModel.DataAnnotations;
 
-    public partial class User : BaseIdentityEntity
+    public partial class User : DataModelBase
     {
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
         public User()
         {
             InstitutionAdmins = new HashSet<InstitutionAdmin>();
             InstitutionResidents = new HashSet<InstitutionResident>();
         }
-
+        
         [Required]
         [StringLength(100)]
         public string FirstName { get; set; }

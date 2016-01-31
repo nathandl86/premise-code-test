@@ -1,14 +1,14 @@
-namespace DutyHours.Data.Entities
+namespace DutyHours.Models.Data
 {
     using System.Collections.Generic;
 
-    public partial class InstitutionResident : BaseIdentityEntity
+    public partial class InstitutionResident : DataModelBase
     {        
         public InstitutionResident()
         {
             ResidentShifts = new HashSet<ResidentShift>();
-        }        
-
+        }
+        
         public int InstitutionId { get; set; }
 
         public int UserId { get; set; }

@@ -173,6 +173,11 @@
     <Compile Include="App_Start\FilterConfig.cs" />
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="App_Start\WebApiConfig.cs" />
+    <Compile Include="Code\ControllerExtensions.cs" />
+    <Compile Include="Code\HttpAssert.cs" />
+    <Compile Include="Code\HttpRequires.cs" />
+    <Compile Include="Code\Logger.cs" />
+    <Compile Include="Controllers\Api\ResidentController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
@@ -180,6 +185,10 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="App_Data\DutyHours.mdf" />
+    <Content Include="App_Data\DutyHours_log.ldf">
+      <DependentUpon>DutyHours.mdf</DependentUpon>
+    </Content>
     <Content Include="Content\bootstrap.css" />
     <Content Include="Content\bootstrap.min.css" />
     <Content Include="Content\toastr.min.css" />
@@ -190,6 +199,7 @@
       <DependentUpon>Readme.md</DependentUpon>
     </Content>
     <Content Include="Scripts\app\app.js" />
+    <Content Include="Scripts\app\services\toastr.service.js" />
     <Content Include="Scripts\vendor\angular-ui-bootstrap\ui-bootstrap.js" />
     <Content Include="Scripts\vendor\angular-ui-bootstrap\ui-bootstrap.min.js" />
     <Content Include="Scripts\vendor\angular\angular-csp.css" />
@@ -231,10 +241,7 @@
     <Content Include="Views\Home\ResidentCalendar.cshtml" />
     <Content Include="Views\Home\Analysis.cshtml" />
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="App_Data\" />
-    <Folder Include="Controllers\Api\" />
-  </ItemGroup>
+  <ItemGroup />
   <ItemGroup>
     <Content Include="fonts\glyphicons-halflings-regular.woff" />
     <Content Include="fonts\glyphicons-halflings-regular.ttf" />

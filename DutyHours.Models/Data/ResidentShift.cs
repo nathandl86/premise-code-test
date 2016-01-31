@@ -1,9 +1,10 @@
-namespace DutyHours.Data.Entities
+namespace DutyHours.Models.Data
 {
     using System;
 
-    public partial class ResidentShift : BaseIdentityEntity
+    public partial class ResidentShift : DataModelBase
     {
+
         public int InstitutionResidentId { get; set; }
 
         public DateTime EntryDateTimeUtc { get; set; }

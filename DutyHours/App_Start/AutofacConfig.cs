@@ -1,5 +1,6 @@
 ﻿using Autofac;
 using Autofac.Integration.WebApi;
+using DutyHours.Code;
 using DutyHours.Data;
 using DutyHours.Services;
 using System.Reflection;
@@ -17,6 +18,11 @@ namespace DutyHours.App_Start
             //configuration of autofac for web api
             builder.RegisterApiControllers(Assembly.GetExecutingAssembly());
             builder.RegisterWebApiFilterProvider(config);
+
+            //types in the web project
+            builder.RegisterType<Logger>()
+                .AsImplementedInterfaces()
+                .PropertiesAutowired();
 
             //Pull in modules
             builder.RegisterModule(new ServiceIocModule());

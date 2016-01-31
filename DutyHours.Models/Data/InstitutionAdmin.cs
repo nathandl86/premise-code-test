@@ -1,6 +1,6 @@
-namespace DutyHours.Data.Entities
+namespace DutyHours.Models.Data
 {
-    public partial class InstitutionAdmin : BaseIdentityEntity
+    public partial class InstitutionAdmin : DataModelBase
     {
 
         public int InstitutionId { get; set; }

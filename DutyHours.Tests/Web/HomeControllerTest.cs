@@ -2,7 +2,7 @@
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using DutyHours.Controllers;
 
-namespace DutyHours.Tests.Controllers
+namespace DutyHours.Tests.Unit.Web.Controllers
 {
     [TestClass]
     public class HomeControllerTest

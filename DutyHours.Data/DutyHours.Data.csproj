@@ -59,7 +59,9 @@
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.ComponentModel.DataAnnotations" />
+    <Reference Include="System.configuration" />
     <Reference Include="System.Core" />
+    <Reference Include="System.Data.Entity" />
     <Reference Include="System.Runtime.Serialization" />
     <Reference Include="System.Security" />
     <Reference Include="System.Xml.Linq" />
@@ -71,18 +73,18 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="DataIocModule.cs" />
-    <Compile Include="Entities\BaseIdentityEntity.cs" />
-    <Compile Include="Entities\IBaseIdentityEntity.cs" />
-    <Compile Include="Entities\Institution.cs" />
-    <Compile Include="Entities\InstitutionAdmin.cs" />
-    <Compile Include="Entities\InstitutionResident.cs" />
     <Compile Include="DutyHoursDbContext.cs" />
-    <Compile Include="Entities\ResidentShift.cs" />
-    <Compile Include="Entities\User.cs" />
+    <Compile Include="IDutyHoursDbContext.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Repsitories\EntityRepositoryBase.cs" />
+    <Compile Include="Repsitories\IResidentRepository.cs" />
+    <Compile Include="Repsitories\ResidentEntityRepository.cs" />
   </ItemGroup>
   <ItemGroup>
-    <Folder Include="Repsitories\" />
+    <ProjectReference Include="..\DutyHours.Models\DutyHours.Models.csproj">
+      <Project>{3063539d-8ca7-4343-ad7f-f4fad972c331}</Project>
+      <Name>DutyHours.Models</Name>
+    </ProjectReference>
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
@@ -90,13 +92,6 @@
     <None Include="Readme.md" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="DutyHours.mdf">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <Content Include="DutyHours_log.ldf">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-      <DependentUpon>DutyHours.mdf</DependentUpon>
-    </Content>
     <Content Include="Readme.html">
       <DependentUpon>Readme.md</DependentUpon>
     </Content>

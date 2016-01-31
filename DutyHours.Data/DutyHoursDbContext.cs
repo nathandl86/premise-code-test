@@ -1,24 +1,26 @@
 namespace DutyHours.Data
 {
     using System.Data.Entity;
-    using DutyHours.Data.Entities;
-
+    using Models.Data;
+    using System.Configuration;
+    
     /// <summary>
     /// Database context class for the DutyHours database (mdf included in project).
-    /// Generate using EF's code-first data model generator template in VS 2015
+    /// Generate using EF's code-first data model generator template in VS 2015.
     /// </summary>
-    public partial class DutyHoursDbContext : DbContext
+    public partial class DutyHoursDbContext : DbContext, IDutyHoursDbContext
     {
         public DutyHoursDbContext()
-            : base("name=DutyHours")
         {
+            var conn = ConfigurationManager.ConnectionStrings["DutyHours"];
+            Database.Connection.ConnectionString = conn.ConnectionString;  
         }
 
-        public virtual DbSet<InstitutionAdmin> InstitutionAdmins { get; set; }
-        public virtual DbSet<InstitutionResident> InstitutionResidents { get; set; }
-        public virtual DbSet<Institution> Institutions { get; set; }
-        public virtual DbSet<ResidentShift> ResidentShifts { get; set; }
-        public virtual DbSet<User> Users { get; set; }
+        public virtual IDbSet<InstitutionAdmin> InstitutionAdmins { get; set; }
+        public virtual IDbSet<InstitutionResident> InstitutionResidents { get; set; }
+        public virtual IDbSet<Institution> Institutions { get; set; }
+        public virtual IDbSet<ResidentShift> ResidentShifts { get; set; }
+        public virtual IDbSet<User> Users { get; set; }
 
         protected override void OnModelCreating(DbModelBuilder modelBuilder)
         {
