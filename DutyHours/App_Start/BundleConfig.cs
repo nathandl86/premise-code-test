@@ -28,7 +28,9 @@ namespace DutyHours
                 ));
 
             bundles.Add(new ScriptBundle("~/bundles/app").Include(
-                    "~/Scripts/app/app.js"
+                    "~/Scripts/app/app.js",
+                    "~/Scripts/app/init.js",
+                    "~/Scripts/app/services/*.service.js"
                 ));
 
             bundles.Add(new StyleBundle("~/Content/css").Include(

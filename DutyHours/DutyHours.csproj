@@ -177,6 +177,7 @@
     <Compile Include="Code\HttpAssert.cs" />
     <Compile Include="Code\HttpRequires.cs" />
     <Compile Include="Code\Logger.cs" />
+    <Compile Include="Controllers\Api\InstitutionController.cs" />
     <Compile Include="Controllers\Api\ResidentController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Global.asax.cs">
@@ -199,6 +200,11 @@
       <DependentUpon>Readme.md</DependentUpon>
     </Content>
     <Content Include="Scripts\app\app.js" />
+    <Content Include="Scripts\app\init.js" />
+    <Content Include="Scripts\app\services\common.service.js" />
+    <Content Include="Scripts\app\services\institution.service.js" />
+    <Content Include="Scripts\app\services\logger.service.js" />
+    <Content Include="Scripts\app\services\resident.service.js" />
     <Content Include="Scripts\app\services\toastr.service.js" />
     <Content Include="Scripts\vendor\angular-ui-bootstrap\ui-bootstrap.js" />
     <Content Include="Scripts\vendor\angular-ui-bootstrap\ui-bootstrap.min.js" />

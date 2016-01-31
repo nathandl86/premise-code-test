@@ -9,7 +9,6 @@ namespace DutyHours.Data.Repsitories
         ResponseModel<ResidentShift> Save(ResidentShift model);
         ResponseModel Delete(ResidentShift model);
         ResponseModel<InstitutionResident> FindById(int userId);
-        ResponseModel<IEnumerable<InstitutionResident>> FindByInstitutionId(int institutionId);
         ResponseModel<IEnumerable<ResidentShift>> FindShiftsByResidentId(int userId, int numberOfShifts = 90);
     }
 }

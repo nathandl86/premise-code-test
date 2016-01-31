@@ -24,26 +24,6 @@ namespace DutyHours.Data.Repsitories
         #region Methods
 
         /// <summary>
-        /// Method to get the residents within an institution
-        /// </summary>
-        /// <param name="institutionId"></param>
-        /// <returns></returns>
-        public ResponseModel<IEnumerable<InstitutionResident>> FindByInstitutionId(int institutionId)
-        {
-            Func<IEnumerable<InstitutionResident>> resolver = () =>
-            {
-                return DhDataContext
-                    .InstitutionResidents
-                    .Include(e => e.User)
-                    .AsNoTracking()
-                    .AsQueryable()
-                    .Where(e=>e.InstitutionId == institutionId)                    
-                    .ToList();
-            };
-            return RetrieveMany(resolver);
-        }
-
-        /// <summary>
         /// Method to get the resident by user id
         /// </summary>
         /// <param name="institutionResidentId">Institution Resident identifier</param>

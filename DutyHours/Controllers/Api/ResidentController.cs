@@ -14,77 +14,81 @@ namespace DutyHours.Controllers.Api
 {
     /// <summary>
     /// Api Controller for resident data lookups and persistence
+    /// 
+    /// Needs: Authorization restrictions on logged in users and around the ability
+    /// to view and add shifts (either same logged in user or an admin)
     /// </summary>
-    [RoutePrefix("api")]
+    [RoutePrefix("api/resident")]
     [Mvc.SessionState(SessionStateBehavior.Disabled)]
     [AutofacControllerConfiguration]
     public class ResidentController : ApiController
     {
         private readonly IResidentRepository _residentRepo;
         private readonly IResidentService _residentSvc;
+        private readonly ILogger _logger;
 
-        public ILogger Logger { get; set; }
-
-        public ResidentController(IResidentService residentSvc, IResidentRepository residentRepo)
+        public ResidentController(IResidentService residentSvc, IResidentRepository residentRepo, ILogger logger)
         {
             _residentSvc = residentSvc;
             _residentRepo = residentRepo;
+            _logger = logger;
         }
 
         /// <summary>
-        /// Api Method to retrieve the residents within an institution
+        /// Api Method to retrieve a resident's user information
         /// </summary>
-        [Route("institution/{institutionId}/residents")]
+        /// <param name="residentId">Institution Resident id for the resident</param>
+        /// <returns></returns>
+        [Route("{residentId}")]
         [HttpGet]
-        public IHttpActionResult GetInstitutionResidents(int institutionId)
+        public IHttpActionResult GetResident(int residentId)
         {
             try
             {
-                HttpRequires.IsTrue(institutionId > 0, "A valid instituion identifier is required");
+                HttpRequires.IsTrue(residentId > 0, "A valid resident identifier is required");
 
-                var response = _residentRepo.FindByInstitutionId(institutionId);
+                var response = _residentRepo.FindById(residentId);
 
                 HttpAssert.Success(response);
-                HttpAssert.NotNull(response, "Unable to find residents for the institution");
+                HttpAssert.NotNull(response, String.Format("Unable to find a resident with id [{0}]", residentId));
 
                 return Ok(response.Result);
             }
-            catch (Exception ex)
+            catch(Exception ex)
             {
-                //TODO: Server side logging/notification here
-                if(Logger != null)
+                if(_logger != null)
                 {
-                    Logger.Write(ex);
+                    _logger.Write(ex);
                 }
                 return InternalServerError();
             }
         }
 
         /// <summary>
-        /// Api Method to retrieve a resident's user information
+        /// Api Method to get a residents shifts
         /// </summary>
-        /// <param name="userId">User id for the resident</param>
+        /// <param name="residentId"></param>
         /// <returns></returns>
-        [Route("resident/{userId}")]
+        [Route("{residentId}/shifts")]
         [HttpGet]
-        public IHttpActionResult GetResident(int userId)
+        public IHttpActionResult GetResidentShifts(int residentId)
         {
             try
             {
-                HttpRequires.IsTrue(userId > 0, "A valid user identifier is required");
+                HttpRequires.IsTrue(residentId > 0, "A valid resident identifier is required");
 
-                var response = _residentRepo.FindById(userId);
+                var response = _residentRepo.FindShiftsByResidentId(residentId);
 
                 HttpAssert.Success(response);
-                HttpAssert.NotNull(response, String.Format("Unable to find a user with id [{0}]", userId));
+                HttpAssert.NotNull(response, String.Format("Unable to find shifts for resident with id [{0}]", residentId));
 
                 return Ok(response.Result);
             }
             catch(Exception ex)
             {
-                if(Logger != null)
+                if(_logger != null)
                 {
-                    Logger.Write(ex);
+                    _logger.Write(ex);
                 }
                 return InternalServerError();
             }
@@ -95,17 +99,27 @@ namespace DutyHours.Controllers.Api
         /// conflicts if saving the data will result in overlapping dates with 
         /// pre-existing shifts. 
         /// </summary>
-        /// <param name=""></param>
+        /// <param name="overrideAck">User has the ability to acknowledge conflict
+        ///        and choose to override them</param>
         /// <returns></returns>
-        [Route("resident/shift/save")]
+        [Route("{residentId}/shift/save/{overrideAck?}")]
         [HttpPost]
-        public IHttpActionResult SaveResidentShift([FromBody] ResidentShift shift, [FromBody] bool overrideAck)
+        public IHttpActionResult SaveResidentShift(int residentId, bool? overrideAck,
+            [FromBody] ResidentShift shift)
         {
             try
             {
                 HttpRequires.IsNotNull(shift, "Shift Data Required");
 
-                var response = _residentSvc.SaveShift(shift);
+                //Ensure that the client times are mapped to UTC before persistence
+                shift.EntryDateTimeUtc = shift.EntryDateTimeUtc.ToUniversalTime();
+                shift.StartDateTimeUtc = shift.StartDateTimeUtc.ToUniversalTime();
+                if (shift.EndDateTimeUtc.HasValue)
+                {
+                    shift.EndDateTimeUtc = shift.EndDateTimeUtc.Value.ToUniversalTime();
+                }
+
+                var response = _residentSvc.SaveShift(shift, overrideAck.HasValue && overrideAck.Value);
 
                 HttpAssert.Success(response);
                 return Ok();
@@ -120,9 +134,9 @@ namespace DutyHours.Controllers.Api
             }
             catch(Exception ex)
             {
-                if(Logger != null)
+                if(_logger != null)
                 {
-                    Logger.Write(ex);
+                    _logger.Write(ex);
                 }
                 return InternalServerError();
             }

@@ -77,6 +77,8 @@
     <Compile Include="IDutyHoursDbContext.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Repsitories\EntityRepositoryBase.cs" />
+    <Compile Include="Repsitories\IInstitutionRepository.cs" />
+    <Compile Include="Repsitories\InstitutionEntityRepository.cs" />
     <Compile Include="Repsitories\IResidentRepository.cs" />
     <Compile Include="Repsitories\ResidentEntityRepository.cs" />
   </ItemGroup>

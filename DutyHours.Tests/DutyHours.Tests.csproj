@@ -108,6 +108,8 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Data\BaseRepositoryTests.cs" />
+    <Compile Include="Data\InstitutionEntityRepositoryTests.cs" />
     <Compile Include="Data\ResidentEntityRepositoryTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Web\HomeControllerTest.cs" />
