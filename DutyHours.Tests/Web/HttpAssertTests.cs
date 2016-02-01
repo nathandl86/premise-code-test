@@ -1,5 +1,5 @@
 ﻿using DutyHours.Code;
-using DutyHours.Data.Models;
+using DutyHours.EntityData;
 using DutyHours.Models;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System;

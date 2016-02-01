@@ -1,8 +1,7 @@
 ﻿using System.Collections.Generic;
-using DutyHours.Data.Models;
 using DutyHours.Models;
 
-namespace DutyHours.Data.Mappers
+namespace DutyHours.EntityData.Mappers
 {
     public interface IMapper
     {

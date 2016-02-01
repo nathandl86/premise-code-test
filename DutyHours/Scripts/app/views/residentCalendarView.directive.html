@@ -9,7 +9,9 @@
             <p>{{ resCalCtrl.getResidentText() }} - Shift Entry</p>
         </div>
         <div class="section-body">
-            <data-shift-entry></data-shift-entry>
+            <data-shift-entry data-resident="resCalCtrl.resident"
+                              data-shift="resCalCtrl.selectedShift"
+                              data-shifts="resCalCtrl.shifts"></data-shift-entry>
         </div>
     </div>
 
@@ -19,7 +21,7 @@
             <button class="btn btn-default">Analyze Compliance</button>
         </div>
         <div class="section-body">
-            
+
         </div>
     </div>
 </div>

@@ -15,9 +15,10 @@ namespace DutyHours.Services
         {
             try
             {
+                var result = func.Invoke();
                 return new ResponseModel<T>
                 {
-                    Result = func.Invoke(),
+                    Result = result,
                     HasError = false
                 };
             }

@@ -1,12 +1,12 @@
-﻿using DutyHours.Data.Mappers;
-using DutyHours.Data.Models;
+﻿using DutyHours.EntityData;
+using DutyHours.EntityData.Mappers;
 using DutyHours.Models;
 using System;
 using System.Collections.Generic;
 using System.Data.Entity;
 using System.Linq;
 
-namespace DutyHours.Data.Repsitories
+namespace DutyHours.EntityData.Repsitories
 {
     /// <summary>
     /// Entity Framework repository implementing IInstitutionRepository
@@ -17,7 +17,7 @@ namespace DutyHours.Data.Repsitories
         /// Constructor for DbContext to be injected
         /// </summary>
         /// <param name="dhDbContext"></param>
-        public InstitutionEntityRepository(IDutyHoursDbContext dhDbContext, IMapper mapper)
+        public InstitutionEntityRepository(DutyHoursModel dhDbContext, IMapper mapper)
             : base(dhDbContext, mapper) { } 
 
         /// <summary>
@@ -31,7 +31,6 @@ namespace DutyHours.Data.Repsitories
 
                 var data = DhDataContext
                     .Institutions
-                    .AsNoTracking()
                     .Select(i=> i);
 
                 return Mapper.Map(data);
@@ -50,7 +49,6 @@ namespace DutyHours.Data.Repsitories
             {
                 var data = DhDataContext
                     .Institutions
-                    .AsNoTracking()
                     .Where(i => i.Id == id)
                     .FirstOrDefault();
 
@@ -71,7 +69,6 @@ namespace DutyHours.Data.Repsitories
                 var data = DhDataContext
                     .InstitutionResidents
                     .Include(e => e.User)
-                    .AsNoTracking()
                     .AsQueryable()
                     .Where(e => e.InstitutionId == institutionId);
                 return Mapper.Map(data);

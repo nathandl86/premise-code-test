@@ -5,15 +5,17 @@
 (function (angular) {
     'use strict';
 
-    residentCalendarViewController.$inject = ['appService'];
+    residentCalendarViewController.$inject = ['$http', 'appService', 'residentService'];
     angular.module('dutyHoursApp').controller('residentCalendarViewController', residentCalendarViewController);
 
-    function residentCalendarViewController(appService) {
+    function residentCalendarViewController(ngHttp, appService, residentService) {
         var vm = this;
 
         //properties
         vm.resident = null;
         vm.institution = null;
+        vm.selectedShift = null;
+        vm.shifts = [];
 
         //methods
         vm.getResidentText = getResidentText;
@@ -45,6 +47,7 @@
 
             function residentSet(resident) {
                 vm.resident = resident;
+                getResidentShifts(resident.id);
                 res = appService.getResidentPromise();
                 res.promise.then(residentSet);
             }
@@ -65,6 +68,17 @@
             inst.promise.then(function (institution) {
                 vm.institution = institution;
             });
+        }
+
+        /*
+         * @name getResidentShifts
+         * @description Function to get the resident's shift history
+         */
+        function getResidentShifts(residentId) {
+            residentService.getShifts(residentId)
+                .then(function (data) {
+                    vm.shifts = data;
+                });
         }
 
         /*

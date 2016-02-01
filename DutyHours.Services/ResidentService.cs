@@ -1,4 +1,4 @@
-﻿using DutyHours.Data.Repsitories;
+﻿using DutyHours.EntityData.Repsitories;
 using DutyHours.Models;
 using DutyHours.Models.Exceptions;
 using System;
@@ -65,6 +65,8 @@ namespace DutyHours.Services
         /// <returns></returns>
         private bool DoesShiftConflict(ResidentShiftModel existing, ResidentShiftModel unsaved)
         {
+            if(unsaved.Id == existing.Id) return false;
+
             if(unsaved.StartDateTime>= existing.StartDateTime && 
                 (!existing.EndDateTime.HasValue || unsaved.StartDateTime <= existing.EndDateTime.Value))
             {

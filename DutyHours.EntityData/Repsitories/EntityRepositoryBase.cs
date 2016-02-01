@@ -1,24 +1,24 @@
-﻿using DutyHours.Data.Mappers;
-using DutyHours.Data.Models;
+﻿using DutyHours.EntityData;
+using DutyHours.EntityData.Mappers;
 using DutyHours.Models;
 using System;
 using System.Collections.Generic;
 
-namespace DutyHours.Data.Repsitories
+namespace DutyHours.EntityData.Repsitories
 {
     /// <summary>
     /// Base class for repositories using an Entity Framework datalayer.
     /// </summary>
     public abstract class EntityRepositoryBase
     {
-        protected IDutyHoursDbContext DhDataContext { get; private set; }
+        protected DutyHoursModel DhDataContext { get; private set; }
         protected IMapper Mapper { get; private set; }
 
         /// <summary>
         /// Constructor with injected duty hours db context
         /// </summary>
         /// <param name="dhDbContext"></param>
-        public EntityRepositoryBase(IDutyHoursDbContext dhDbContext, IMapper mapper) {
+        public EntityRepositoryBase(DutyHoursModel dhDbContext, IMapper mapper) {
             DhDataContext = dhDbContext;
             Mapper = mapper;
         }

@@ -1,5 +1,4 @@
-﻿using DutyHours.Data;
-using DutyHours.Data.Models;
+﻿using DutyHours.EntityData;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Rhino.Mocks;
 using System;
@@ -16,7 +15,7 @@ namespace DutyHours.Tests.Data
     [TestClass]
     public abstract class BaseRepositoryTests
     {
-        protected IDutyHoursDbContext MockContext { get; set; }
+        protected DutyHoursModel MockContext { get; set; }
 
         [TestInitialize]
         public void Initialize()
@@ -110,9 +109,9 @@ namespace DutyHours.Tests.Data
 
         #region Mock DbContext
 
-        protected IDutyHoursDbContext BuildDbContext()
+        protected DutyHoursModel BuildDbContext()
         {
-            var mockContext = MockRepository.GenerateMock<IDutyHoursDbContext>();
+            var mockContext = MockRepository.GenerateMock<DutyHoursModel>();
 
             //setup user data
             mockContext.Stub(x => x.Users).PropertyBehavior();
@@ -135,7 +134,7 @@ namespace DutyHours.Tests.Data
             return mockContext;
         }
 
-        private static IDbSet<T> GetDbSet<T>(IList<T> data) where T : DataModelBase
+        private static IDbSet<T> GetDbSet<T>(IList<T> data) where T : class
         {
             var queryable = data.AsQueryable();
             var dbSet = MockRepository.GenerateMock<IDbSet<T>, IQueryable>();

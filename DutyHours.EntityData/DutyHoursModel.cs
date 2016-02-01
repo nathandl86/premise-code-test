@@ -1,20 +1,19 @@
-namespace DutyHours.Data
+namespace DutyHours.EntityData
 {
-    using System.Data.Entity;
     using System.Configuration;
-    using Models;
-
-    /// <summary>
-    /// Database context class for the DutyHours database (mdf included in project).
-    /// Generate using EF's code-first data model generator template in VS 2015.
-    /// </summary>
-    public partial class DutyHoursDbContext : DbContext, IDutyHoursDbContext
+    using System.Data.Entity;
+    using System.Diagnostics;
+    public partial class DutyHoursModel : DbContext
     {
-        public DutyHoursDbContext()
+        public DutyHoursModel()
+            : base()
         {
             Configuration.LazyLoadingEnabled = false;
-            var conn = ConfigurationManager.ConnectionStrings["DutyHours"];
-            Database.Connection.ConnectionString = conn.ConnectionString;  
+
+            var conn = ConfigurationManager.ConnectionStrings["DutyHours"];            
+            Database.Connection.ConnectionString = conn.ConnectionString;
+
+            Database.Log = message => Debug.WriteLine(message);
         }
 
         public virtual IDbSet<InstitutionAdmin> InstitutionAdmins { get; set; }
@@ -65,6 +64,6 @@ namespace DutyHours.Data
                 .HasMany(e => e.InstitutionResidents)
                 .WithRequired(e => e.User)
                 .WillCascadeOnDelete(false);
-        }
+        }       
     }
 }

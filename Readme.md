@@ -14,26 +14,40 @@ into are going to be as follows:
     - Adding client libraries
     - Stubbing out the setup of Autofac for IoC
 2. Designing the backend data model to support the application
-3. Define and build the data layer code
-4. Define and stub the API interactions
-5. From this point the application should be setup nicely so that remaining modules
-    of work should largely be capable of being worked independently and in parallel. 
-    Those other pieces/modules are: 
-    - Building rules engine to process during analysis of Resident duty hours to 
-        ensure compliance.
-    - Building UI component for Resident calendar
-    - Building UI component for Resident time/shift entry
-    - Building UI component for admin users to be able to run analysis for 1 -> many
-        Residents
+3. Build out the ability for the Resident to save shift details
 
 #### Upon completion of the first set of modules:     
-1. Build UI component to output analysis details to admins and Residents
-2. Integration of the resident calendar module into the analysis page to 
-        show details on broken compliance rules
-
-### Next Steps
-1. Refactor away from built-in ASP.NET bundling and mification to gulp
-2. Add authentication and authorization rules to application to ensure:
+1. Get the compliance analysis working for a single patient
+    - use a generic rules engine to process the 28 days of shifts
+    - rules should implement a common interface and be very easy to add
+2. Get the admin analysis built where the user will be capable of running
+    analysis for more than 1 resident
+3. Build the schedule directive to show resident shifts on a calendar. In 
+    looking I found 2 options that might be worthwhile: 
+    - [Ui Calendar](http://angular-ui.github.io/ui-calendar/)
+    - [Angular-Bootstrap-Calendar](https://github.com/mattlewis92/angular-bootstrap-calendar)
+4. Build the analysis results view showing details on compliance rules broken
+    - details on the shifts causing break
+    - ability to click shift and see it in the resident's calendar
+5. Add authentication and authorization rules to application to ensure:
     - Resident's who aren't also Admins, cannot run analysis on any other Residents
     - Admins's who aren't residents, cannot enter time/shifts
     - Web Apis needing authorization or decorated with `[Authorize]` attribute
+
+#### Long-Term Steps
+1. Refactor away from built-in ASP.NET bundling and mification to gulp
+2. Caching impelementation
+3. More robust logging
+4. Split up Mapper class (or preferably implement AutoMapper)
+
+#### What's I'm not Happy With
+1. UI Design and ease of use
+2. Lack of tests
+3. I encountered an EF problem I haven't squashed yet. When saving a time entry for 
+    a resident, it's adding/attaching the detached entity model, getting through save 
+    changes without error, and the entity returned has the auto-identity from the 
+    table, but the record isn't persisted. From reading about it, it may have 
+    something to do with it being a local mdf file, but I haven't figured it out
+    quite yet.
+4. I was hoping to get as far as building out the rules engine and at least writing
+    some tests against it.

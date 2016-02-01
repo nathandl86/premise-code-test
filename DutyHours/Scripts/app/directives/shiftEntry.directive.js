@@ -14,7 +14,11 @@
         var directive = {
             restrict: 'E',
             replace: true,
-            scope: false,
+            scope: {
+                resident: "=",
+                shift: "=",
+                shifts: "="
+            },
             templateUrl: '/Scripts/app/views/shiftEntry.directive.html',
             controller: 'shiftEntryController',
             controllerAs: 'seCtrl',

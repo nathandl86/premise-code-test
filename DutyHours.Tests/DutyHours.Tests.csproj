@@ -127,9 +127,9 @@
     <None Include="Readme.md" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\DutyHours.Data\DutyHours.Data.csproj">
-      <Project>{69c60f06-11e7-4f98-9442-08c9f5ef184b}</Project>
-      <Name>DutyHours.Data</Name>
+    <ProjectReference Include="..\DutyHours.EntityData\DutyHours.EntityData.csproj">
+      <Project>{58d45ea9-436a-4401-b303-db3485be37ec}</Project>
+      <Name>DutyHours.EntityData</Name>
     </ProjectReference>
     <ProjectReference Include="..\DutyHours.Models\DutyHours.Models.csproj">
       <Project>{3063539d-8ca7-4343-ad7f-f4fad972c331}</Project>

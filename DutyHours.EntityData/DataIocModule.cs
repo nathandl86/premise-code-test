@@ -1,9 +1,10 @@
 ﻿using Autofac;
-using DutyHours.Data.Mappers;
+using DutyHours.EntityData;
+using DutyHours.EntityData.Mappers;
 using System;
 using System.Reflection;
 
-namespace DutyHours.Data
+namespace DutyHours.EntityData
 {
     /// <summary>
     /// Autofac module to register the types to inject in other projects
@@ -18,9 +19,8 @@ namespace DutyHours.Data
             }
 
             //Setup the DbContext to be per request
-            builder.RegisterType<DutyHoursDbContext>()
-                .InstancePerRequest()
-                .AsImplementedInterfaces();
+            builder.RegisterType<DutyHoursModel>()
+                .InstancePerRequest();
 
             builder.RegisterType<Mapper>().AsImplementedInterfaces();
 

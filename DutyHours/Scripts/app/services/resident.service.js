@@ -58,13 +58,14 @@
          * @name saveShift
          * @description saves a resident shift
          */
-        function saveShift(shift, overrideAck) {
+        function saveShift(shift) {
             return ngHttp({
                 method: 'POST',
-                url: apiPrefix + shift.InstitutionResidentId + '/shift/save',
+                url: apiPrefix + shift.institutionResidentId + '/shift/save',
                 data: shift
             }).then(function (resp) {
                 common.notifier.success("Shift Saved Successfully!");
+                return resp.data;
             }, function (err) {
                 if (err.statusCode === 400) {
                     //TODO: handle shift conflict error and prompt user

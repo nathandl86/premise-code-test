@@ -4,9 +4,9 @@ using Mvc = System.Web.Mvc;
 using Autofac.Integration.WebApi;
 using System.Web.SessionState;
 using DutyHours.Code;
-using DutyHours.Data.Repsitories;
 using DutyHours.Models.Interfaces;
 using System.Linq;
+using DutyHours.EntityData.Repsitories;
 
 namespace DutyHours.Controllers.Api
 {

@@ -1,10 +1,10 @@
-﻿using DutyHours.Data.Models;
+﻿
 using DutyHours.Models;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 
-namespace DutyHours.Data.Mappers
+namespace DutyHours.EntityData.Mappers
 {
     /// <summary>
     /// Mapper class to get plain models from entity models and vice-versa
@@ -120,9 +120,8 @@ namespace DutyHours.Data.Mappers
 
         public ResidentShift Map(ResidentShiftModel model)
         {
-            return new ResidentShift
+            var resShift = new ResidentShift
             {
-                Id = model.Id,
                 InstitutionResidentId = model.InstitutionResidentId,
 
                 //Ensure that the client times are mapped to UTC before persistence
@@ -130,6 +129,11 @@ namespace DutyHours.Data.Mappers
                 StartDateTimeUtc = model.StartDateTime.ToUniversalTime(),
                 EntryDateTimeUtc = model.EntryDateTime.ToUniversalTime()
             };
+            if(model.Id > 0)
+            {
+                resShift.Id = model.Id;
+            }
+            return resShift;
         }
 
         public ResidentShiftModel Map(ResidentShift data)

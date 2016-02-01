@@ -2,13 +2,13 @@
 using Mvc = System.Web.Mvc;
 using Autofac.Integration.WebApi;
 using System.Web.SessionState;
-using DutyHours.Data.Repsitories;
 using System;
 using DutyHours.Code;
 using DutyHours.Models.Interfaces;
 using DutyHours.Services;
 using DutyHours.Models.Exceptions;
 using DutyHours.Models;
+using DutyHours.EntityData.Repsitories;
 
 namespace DutyHours.Controllers.Api
 {
@@ -113,7 +113,7 @@ namespace DutyHours.Controllers.Api
                 var response = _residentSvc.SaveShift(shift);
 
                 HttpAssert.Success(response);
-                return Ok();
+                return Ok(response.Result);
             }
             catch(ShiftConflictException ex)
             {

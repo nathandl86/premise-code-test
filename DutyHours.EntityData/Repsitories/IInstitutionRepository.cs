@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
 using DutyHours.Models;
 
-namespace DutyHours.Data.Repsitories
+namespace DutyHours.EntityData.Repsitories
 {
     public interface IInstitutionRepository
     {

@@ -16,7 +16,7 @@
         var directive = {
             restrict: 'E',
             replace: true,
-            scope: true,
+            scope: false,
             templateUrl: '/Scripts/app/views/residentCalendarView.directive.html',
             controller: 'residentCalendarViewController',
             controllerAs: 'resCalCtrl',

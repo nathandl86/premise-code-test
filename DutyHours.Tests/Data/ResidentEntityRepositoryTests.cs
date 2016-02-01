@@ -1,5 +1,5 @@
-﻿using DutyHours.Data.Mappers;
-using DutyHours.Data.Repsitories;
+﻿using DutyHours.EntityData.Mappers;
+using DutyHours.EntityData.Repsitories;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Rhino.Mocks;
 using System.Linq;

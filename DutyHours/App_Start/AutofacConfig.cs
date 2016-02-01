@@ -1,7 +1,7 @@
 ﻿using Autofac;
 using Autofac.Integration.WebApi;
 using DutyHours.Code;
-using DutyHours.Data;
+using DutyHours.EntityData;
 using DutyHours.Services;
 using System.Reflection;
 using System.Web.Http;

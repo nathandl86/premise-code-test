@@ -1,3 +1,60 @@
-﻿<div>
-    
+﻿<div class="container">
+    <label>Start Date:</label>
+    <p class="input-group">
+        <input type="text"
+               class="form-control"
+               uib-datepicker-popup="{{seCtrl.dataFormat}}"
+               ng-model="seCtrl.startDate"
+               is-open="seCtrl.startDatePickerOpen"
+               min-date="seCtrl.minDate"
+               max-date="seCtrl.maxDate"
+               data-ng-required="true"
+               date-picker-options="seCtrl.dateOptions"
+               readonly="true" />
+        <span class="input-group-btn">
+            <button type="button"
+                    class="btn btn-default"
+                    ng-click="seCtrl.openStartDate()">
+                <i class="glyphicon glyphicon-calendar"></i>
+            </button>
+        </span>
+    </p>
+
+    <label>Start Time:</label>
+    <uib-timepicker ng-model="seCtrl.startTime"
+                    hour-step="seCtrl.hourStep"
+                    minute-step="seCtrl.minStep"
+                    show-meridian="seCtrl.timeMeridian"></uib-timepicker>
+
+    <label>End Date:</label>
+    <p class="input-group">
+        <input type="text"
+               class="form-control"
+               uib-datepicker-popup="{{seCtrl.dataFormat}}"
+               ng-model="seCtrl.endDate"
+               is-open="seCtrl.endDatePickerOpen"
+               min-date="seCtrl.startDate"
+               max-date="seCtrl.maxDate"
+               date-picker-options="seCtrl.dateOptions"
+               readonly="true" />
+        <span class="input-group-btn">
+            <button type="button"
+                    class="btn btn-default"
+                    ng-click="seCtrl.openEndDate()">
+                <i class="glyphicon glyphicon-calendar"></i>
+            </button>
+        </span>
+    </p>
+
+    <label>End Time:</label>
+    <uib-timepicker ng-model="seCtrl.endTime"
+                    hour-step="seCtrl.hourStep"
+                    minute-step="seCtrl.minStep"
+                    show-meridian="seCtrl.timeMeridian"></uib-timepicker>
+
+    <button class="btn btn-primary btn-block"
+            data-ng-click="seCtrl.saveClicked()"
+            data-ng-disabled="!seCtrl.saveEnabled()">
+        Save Entry
+    </button>
 </div>

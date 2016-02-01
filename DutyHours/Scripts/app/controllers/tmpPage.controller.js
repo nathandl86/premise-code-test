@@ -41,6 +41,10 @@
                 .then(function (data) {
                     if (angular.isDefined(data) && data && data.length > 0) {
                         vm.institutions = data;
+                        if (data.length === 1) {
+                            vm.institution = data[0];
+                            appService.setInstitution(vm.institution);
+                        }
                     }
                     else {
                         vm.institutions = [];

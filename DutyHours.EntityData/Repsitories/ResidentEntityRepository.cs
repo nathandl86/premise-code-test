@@ -1,13 +1,13 @@
 ﻿
-using DutyHours.Data.Mappers;
-using DutyHours.Data.Models;
+using DutyHours.EntityData;
+using DutyHours.EntityData.Mappers;
 using DutyHours.Models;
 using System;
 using System.Collections.Generic;
 using System.Data.Entity;
 using System.Linq;
 
-namespace DutyHours.Data.Repsitories
+namespace DutyHours.EntityData.Repsitories
 {
     /// <summary>
     /// Entity Framework repository implementation of IResidentRepository.
@@ -18,7 +18,7 @@ namespace DutyHours.Data.Repsitories
         /// Constructor allowing data context to be injected
         /// </summary>
         /// <param name="dhDbContext"></param>
-        public ResidentEntityRepository(IDutyHoursDbContext dhDbContext, IMapper mapper)
+        public ResidentEntityRepository(DutyHoursModel dhDbContext, IMapper mapper)
             : base(dhDbContext, mapper)
         { }
 
@@ -33,10 +33,9 @@ namespace DutyHours.Data.Repsitories
         {
             Func<InstitutionResidentModel> resolver = () =>
             {
-                var data= DhDataContext
+                var data = DhDataContext
                     .InstitutionResidents
                     .Include(e => e.User)
-                    .AsNoTracking()
                     .AsQueryable()
                     .Where(ir => ir.Id == institutionResidentId)
                     .FirstOrDefault();
@@ -59,7 +58,6 @@ namespace DutyHours.Data.Repsitories
                 var data = DhDataContext
                     .ResidentShifts
                     .Include(e => e.InstitutionResident)
-                    .AsNoTracking()
                     .AsQueryable()
                     .Where(rs => rs.InstitutionResidentId == institutionResidentId)
                     .OrderByDescending(rs => rs.StartDateTimeUtc)
@@ -67,7 +65,7 @@ namespace DutyHours.Data.Repsitories
                 return Mapper.Map(data);
             };
             return RetrieveMany(resolver);
-        }        
+        }
 
         /// <summary>
         /// Method to save a resident's shift details.
@@ -77,20 +75,15 @@ namespace DutyHours.Data.Repsitories
         /// <returns></returns>
         public ResponseModel<ResidentShiftModel> Save(ResidentShiftModel model)
         {
-            
+
             Func<ResidentShiftModel> resolver = () =>
             {
                 var data = Mapper.Map(model);
-                if (model.Id > 0)
-                {
-                    DhDataContext.ResidentShifts.Attach(data);
-                }
-                else
-                {
-                    DhDataContext.ResidentShifts.Add(data);
-                }
 
+                DhDataContext.Entry(data).State = data.Id == 0 ? EntityState.Added : EntityState.Modified;
                 DhDataContext.SaveChanges();
+
+                var affectedRecords = DhDataContext.SaveChanges();
                 return Mapper.Map(data);
             };
 
