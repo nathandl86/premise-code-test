@@ -40,7 +40,7 @@ into are going to be as follows:
 3. More robust logging
 4. Split up Mapper class (or preferably implement AutoMapper)
 
-#### What's I'm not Happy With
+#### What I'm not Happy With
 1. UI Design and ease of use
 2. Lack of tests
 3. I encountered an EF problem I haven't squashed yet. When saving a time entry for 
