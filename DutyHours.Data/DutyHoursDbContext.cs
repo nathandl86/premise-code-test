@@ -1,9 +1,9 @@
 namespace DutyHours.Data
 {
     using System.Data.Entity;
-    using Models.Data;
     using System.Configuration;
-    
+    using Models;
+
     /// <summary>
     /// Database context class for the DutyHours database (mdf included in project).
     /// Generate using EF's code-first data model generator template in VS 2015.
@@ -12,6 +12,7 @@ namespace DutyHours.Data
     {
         public DutyHoursDbContext()
         {
+            Configuration.LazyLoadingEnabled = false;
             var conn = ConfigurationManager.ConnectionStrings["DutyHours"];
             Database.Connection.ConnectionString = conn.ConnectionString;  
         }

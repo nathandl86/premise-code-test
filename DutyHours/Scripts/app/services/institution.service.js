@@ -7,9 +7,9 @@
 (function (angular) {
     'use strict';
 
-    institutionService.$inject('$http', '$q', 'commonService');
-    angular.module('dutyHoursApp').service('commonService', commonService);
-
+    institutionService.$inject = ['$http', '$q', 'commonService'];
+    angular.module('dutyHoursApp').factory('institutionService', institutionService);
+    
     /*
      * @description Service wrapper for institution api interactions
      */
@@ -22,6 +22,8 @@
             getResidents: getResidents
         };
 
+        return service;
+
         /*
          * @name get
          * @description get a single institution
@@ -33,7 +35,7 @@
             }).then(function (resp) {
                 return resp.data;
             }, function (err) {
-                common.logger(err);
+                common.logger.log(err);
                 common.notifier.error("Failed to Find Insitution", common.errorHeader(err));
             });
         }
@@ -49,7 +51,7 @@
             }).then(function (resp) {
                 return resp.data;
             }, function (err) {
-                common.logger(err);
+                common.logger.log(err);
                 common.notifier.error("Failed to Find Institutions", common.errorHeader(err));
             });
         }
@@ -58,14 +60,14 @@
          * @name getResidents
          * @description get institution residents
          */
-        function getResidents(intsitutionId) {
+        function getResidents(institutionId) {
             return ngHttp({
                 method: 'GET',
                 url: apiPrefix + institutionId + '/residents'
             }).then(function (resp) {
                 return resp.data;
             }, function (err) {
-                common.logger(err);
+                common.logger.log(err);
                 common.notifier.error("Failed to Find Institution Residents", common.errorHeader(err));
             });
         }

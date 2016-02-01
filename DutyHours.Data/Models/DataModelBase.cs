@@ -1,5 +1,5 @@
 ﻿
-namespace DutyHours.Models.Data
+namespace DutyHours.Data.Models
 {
     public class DataModelBase
     {

@@ -8,7 +8,7 @@ using DutyHours.Code;
 using DutyHours.Models.Interfaces;
 using DutyHours.Services;
 using DutyHours.Models.Exceptions;
-using DutyHours.Models.Data;
+using DutyHours.Models;
 
 namespace DutyHours.Controllers.Api
 {
@@ -104,22 +104,13 @@ namespace DutyHours.Controllers.Api
         /// <returns></returns>
         [Route("{residentId}/shift/save/{overrideAck?}")]
         [HttpPost]
-        public IHttpActionResult SaveResidentShift(int residentId, bool? overrideAck,
-            [FromBody] ResidentShift shift)
+        public IHttpActionResult SaveResidentShift(int residentId, [FromBody] ResidentShiftModel shift)
         {
             try
             {
                 HttpRequires.IsNotNull(shift, "Shift Data Required");
 
-                //Ensure that the client times are mapped to UTC before persistence
-                shift.EntryDateTimeUtc = shift.EntryDateTimeUtc.ToUniversalTime();
-                shift.StartDateTimeUtc = shift.StartDateTimeUtc.ToUniversalTime();
-                if (shift.EndDateTimeUtc.HasValue)
-                {
-                    shift.EndDateTimeUtc = shift.EndDateTimeUtc.Value.ToUniversalTime();
-                }
-
-                var response = _residentSvc.SaveShift(shift, overrideAck.HasValue && overrideAck.Value);
+                var response = _residentSvc.SaveShift(shift);
 
                 HttpAssert.Success(response);
                 return Ok();

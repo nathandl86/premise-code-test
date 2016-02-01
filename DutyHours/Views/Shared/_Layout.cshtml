@@ -15,7 +15,7 @@
                     <span class="icon-bar"></span>
                     <span class="icon-bar"></span>
                 </button>
-                @Html.ActionLink("Duty Hours", "Index", "Home", new { area = "" }, new { @class = "navbar-brand" })
+                @Html.ActionLink("Duty Hours", "ResidentCalendar", "Home", new { area = "" }, new { @class = "navbar-brand" })
             </div>
             <div class="navbar-collapse collapse">
                 <ul class="nav navbar-nav">
@@ -31,6 +31,19 @@
         <footer>
             <p>&copy; @DateTime.Now.Year - Duty Hours</p>
         </footer>
+    </div>
+    <div data-ng-controller="tmpPageController as pc" class="tmpContainer">
+        <div class="container">
+            <p>This section is only temporary until authentication and user managment pieces are in place.</p>
+            <div class="input-group">
+                <label>Select Institution:</label>
+                <select data-ng-model="pc.institution" data-ng-options="i.name for i in pc.institutions"></select>
+            </div>
+            <div class="input-group">
+                <label>Select Resident:</label>
+                <select data-ng-model="pc.resident" data-ng-options="(r.user.firstName + ' ' + r.user.lastName) for r in pc.residents"></select>
+            </div>
+        </div>
     </div>
 
     @Scripts.Render("~/bundles/jquery")

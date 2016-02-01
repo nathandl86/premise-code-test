@@ -1,4 +1,4 @@
-namespace DutyHours.Models.Data
+namespace DutyHours.Data.Models
 {
     using System.Collections.Generic;
 

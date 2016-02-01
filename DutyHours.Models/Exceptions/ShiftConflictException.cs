@@ -1,4 +1,4 @@
-﻿using DutyHours.Models.Data;
+﻿
 using System;
 using System.Collections.Generic;
 
@@ -9,6 +9,6 @@ namespace DutyHours.Models.Exceptions
     /// </summary>
     public class ShiftConflictException : Exception
     {
-        public IEnumerable<ResidentShift> Conflicts { get; set; }
+        public IList<ResidentShiftModel> Conflicts { get; set; }
     }
 }

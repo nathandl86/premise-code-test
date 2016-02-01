@@ -4,6 +4,6 @@
 
     var app = angular.module('dutyHoursApp');
 
-    app.value("baseApiUri", "api/");
+    app.value("baseApiUri", "/api/");
 
 })(window.angular);

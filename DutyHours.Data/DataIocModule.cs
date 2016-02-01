@@ -1,4 +1,5 @@
 ﻿using Autofac;
+using DutyHours.Data.Mappers;
 using System;
 using System.Reflection;
 
@@ -20,6 +21,8 @@ namespace DutyHours.Data
             builder.RegisterType<DutyHoursDbContext>()
                 .InstancePerRequest()
                 .AsImplementedInterfaces();
+
+            builder.RegisterType<Mapper>().AsImplementedInterfaces();
 
             builder.RegisterAssemblyTypes(Assembly.GetExecutingAssembly())
                 .Where(t => t.Name.EndsWith("Repository"))

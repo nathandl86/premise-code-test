@@ -1,5 +1,5 @@
 ﻿using DutyHours.Data;
-using DutyHours.Models.Data;
+using DutyHours.Data.Models;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Rhino.Mocks;
 using System;

@@ -33,7 +33,7 @@
             }).then(function (resp) {
                 return resp.data;
             }, function (err) {
-                common.logger(err);
+                common.logger.log(err);
                 common.notifier.error("Failed to Find Resident", common.errorHeader(err));
             });
         }
@@ -49,7 +49,7 @@
             }).then(function (resp) {
                 return resp.data;
             }, function (err) {
-                common.logger(err);
+                common.logger.log(err);
                 common.notifier.error("Failed to Find Resident Shifts", common.errorHeader(err));
             });
         }
@@ -70,7 +70,7 @@
                     //TODO: handle shift conflict error and prompt user
                     // if they would like to remove conflicts to save shift
                 }
-                common.logger(err);
+                common.logger.log(err);
                 common.notifier.error("Failed to Save Resident Shifts", common.errorHeader(err));
             });
         }

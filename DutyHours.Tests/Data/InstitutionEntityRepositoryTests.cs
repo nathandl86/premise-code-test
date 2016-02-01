@@ -1,5 +1,7 @@
-﻿using DutyHours.Data.Repsitories;
+﻿using DutyHours.Data.Mappers;
+using DutyHours.Data.Repsitories;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
+using Rhino.Mocks;
 using System.Linq;
 
 namespace DutyHours.Tests.Data
@@ -12,7 +14,8 @@ namespace DutyHours.Tests.Data
         {
             //Arrange
             var institutionId = 1;
-            var repo = new InstitutionEntityRepository(MockContext);
+            var mapper = new Mapper();
+            var repo = new InstitutionEntityRepository(MockContext,mapper);
 
             //Act
             var results = repo.FindResidentsByInstitutionId(institutionId);
@@ -30,7 +33,8 @@ namespace DutyHours.Tests.Data
         {
             //Arrange
             var institutionId = -1;
-            var repo = new InstitutionEntityRepository(MockContext);
+            var mapper = new Mapper();
+            var repo = new InstitutionEntityRepository(MockContext, mapper);
 
             //Act
             var result = repo.FindResidentsByInstitutionId(institutionId);

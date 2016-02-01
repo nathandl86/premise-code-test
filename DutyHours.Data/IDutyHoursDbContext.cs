@@ -1,5 +1,5 @@
 ﻿using System.Data.Entity;
-using DutyHours.Models.Data;
+using DutyHours.Data.Models;
 
 namespace DutyHours.Data
 {

@@ -200,12 +200,21 @@
       <DependentUpon>Readme.md</DependentUpon>
     </Content>
     <Content Include="Scripts\app\app.js" />
+    <Content Include="Scripts\app\controllers\complianceAnalysisView.controller.js" />
+    <Content Include="Scripts\app\controllers\residentCalendarView.controller.js" />
+    <Content Include="Scripts\app\controllers\shiftEntry.controller.js" />
+    <Content Include="Scripts\app\controllers\tmpPage.controller.js" />
+    <Content Include="Scripts\app\directives\residentCalendarView.directive.js" />
+    <Content Include="Scripts\app\directives\shiftEntry.directive.js" />
     <Content Include="Scripts\app\init.js" />
+    <Content Include="Scripts\app\services\app.service.js" />
     <Content Include="Scripts\app\services\common.service.js" />
     <Content Include="Scripts\app\services\institution.service.js" />
     <Content Include="Scripts\app\services\logger.service.js" />
     <Content Include="Scripts\app\services\resident.service.js" />
     <Content Include="Scripts\app\services\toastr.service.js" />
+    <Content Include="Scripts\app\views\residentCalendarView.directive.html" />
+    <Content Include="Scripts\app\views\shiftEntry.directive.html" />
     <Content Include="Scripts\vendor\angular-ui-bootstrap\ui-bootstrap.js" />
     <Content Include="Scripts\vendor\angular-ui-bootstrap\ui-bootstrap.min.js" />
     <Content Include="Scripts\vendor\angular\angular-csp.css" />

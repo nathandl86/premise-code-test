@@ -1,5 +1,6 @@
-﻿using DutyHours.Models;
-using DutyHours.Models.Data;
+﻿using DutyHours.Data.Mappers;
+using DutyHours.Data.Models;
+using DutyHours.Models;
 using System;
 using System.Collections.Generic;
 
@@ -11,13 +12,15 @@ namespace DutyHours.Data.Repsitories
     public abstract class EntityRepositoryBase
     {
         protected IDutyHoursDbContext DhDataContext { get; private set; }
+        protected IMapper Mapper { get; private set; }
 
         /// <summary>
         /// Constructor with injected duty hours db context
         /// </summary>
         /// <param name="dhDbContext"></param>
-        public EntityRepositoryBase(IDutyHoursDbContext dhDbContext) {
+        public EntityRepositoryBase(IDutyHoursDbContext dhDbContext, IMapper mapper) {
             DhDataContext = dhDbContext;
+            Mapper = mapper;
         }
 
         /// <summary>
@@ -29,7 +32,7 @@ namespace DutyHours.Data.Repsitories
         /// <param name="resolver"></param>
         /// <returns></returns>
         protected ResponseModel<T> Persist<T>(Func<T> resolver)
-            where T : DataModelBase
+            where T : class
         {
             try
             {
@@ -86,7 +89,7 @@ namespace DutyHours.Data.Repsitories
         /// <param name="resolver"></param>
         /// <returns></returns>
         protected ResponseModel<T> Retrieve<T>(Func<T> resolver) 
-            where T : DataModelBase
+            where T : class
         {
             try
             {

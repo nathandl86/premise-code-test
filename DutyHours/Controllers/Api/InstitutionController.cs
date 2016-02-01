@@ -6,9 +6,13 @@ using System.Web.SessionState;
 using DutyHours.Code;
 using DutyHours.Data.Repsitories;
 using DutyHours.Models.Interfaces;
+using System.Linq;
 
 namespace DutyHours.Controllers.Api
 {
+    /// <summary>
+    /// Api controller for Institution data lookupst and persistence
+    /// </summary>
     [RoutePrefix("api/institution")]
     [Mvc.SessionState(SessionStateBehavior.Disabled)]
     [AutofacControllerConfiguration]
@@ -69,7 +73,7 @@ namespace DutyHours.Controllers.Api
                 HttpAssert.Success(response);
                 HttpAssert.NotNull(response, "Unable to find institutions");
 
-                return Ok(response.Result);
+                return Ok(response.Result.ToList());
             }
             catch(Exception ex)
             {

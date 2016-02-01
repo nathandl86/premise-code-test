@@ -1,4 +1,5 @@
-﻿using System.Web.Http;
+﻿using Newtonsoft.Json.Serialization;
+using System.Web.Http;
 
 namespace DutyHours
 {
@@ -6,6 +7,11 @@ namespace DutyHours
     {
         public static void Register(HttpConfiguration config)
         {
+            //setup json formatters to camel case models and to ignore null values in models
+            config.Formatters.JsonFormatter.SerializerSettings.NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore;
+            config.Formatters.JsonFormatter.SerializerSettings.ContractResolver = new CamelCasePropertyNamesContractResolver();
+            config.Formatters.JsonFormatter.UseDataContractJsonSerializer = false;
+
             // Web API routes
             config.MapHttpAttributeRoutes();
 

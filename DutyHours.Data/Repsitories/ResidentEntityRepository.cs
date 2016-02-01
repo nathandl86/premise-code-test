@@ -1,6 +1,7 @@
 ﻿
+using DutyHours.Data.Mappers;
+using DutyHours.Data.Models;
 using DutyHours.Models;
-using DutyHours.Models.Data;
 using System;
 using System.Collections.Generic;
 using System.Data.Entity;
@@ -17,8 +18,8 @@ namespace DutyHours.Data.Repsitories
         /// Constructor allowing data context to be injected
         /// </summary>
         /// <param name="dhDbContext"></param>
-        public ResidentEntityRepository(IDutyHoursDbContext dhDbContext)
-            : base(dhDbContext)
+        public ResidentEntityRepository(IDutyHoursDbContext dhDbContext, IMapper mapper)
+            : base(dhDbContext, mapper)
         { }
 
         #region Methods
@@ -28,17 +29,18 @@ namespace DutyHours.Data.Repsitories
         /// </summary>
         /// <param name="institutionResidentId">Institution Resident identifier</param>
         /// <returns></returns>
-        public ResponseModel<InstitutionResident> FindById(int institutionResidentId)
+        public ResponseModel<InstitutionResidentModel> FindById(int institutionResidentId)
         {
-            Func<InstitutionResident> resolver = () =>
+            Func<InstitutionResidentModel> resolver = () =>
             {
-                return DhDataContext
+                var data= DhDataContext
                     .InstitutionResidents
                     .Include(e => e.User)
                     .AsNoTracking()
                     .AsQueryable()
                     .Where(ir => ir.Id == institutionResidentId)
                     .FirstOrDefault();
+                return Mapper.Map(data);
             };
 
             return Retrieve(resolver);
@@ -50,11 +52,11 @@ namespace DutyHours.Data.Repsitories
         /// <param name="institutionResidentId">Institution Resident identifier</param>
         /// <param name="numberOfShifts">Limits the number of shifts retrieved. Defaults to 90</param>
         /// <returns></returns>
-        public ResponseModel<IEnumerable<ResidentShift>> FindShiftsByResidentId(int institutionResidentId, int numberOfShifts = 90)
+        public ResponseModel<IEnumerable<ResidentShiftModel>> FindShiftsByResidentId(int institutionResidentId, int numberOfShifts = 90)
         {
-            Func<IEnumerable<ResidentShift>> resolver = () =>
+            Func<IEnumerable<ResidentShiftModel>> resolver = () =>
             {
-                return DhDataContext
+                var data = DhDataContext
                     .ResidentShifts
                     .Include(e => e.InstitutionResident)
                     .AsNoTracking()
@@ -62,6 +64,7 @@ namespace DutyHours.Data.Repsitories
                     .Where(rs => rs.InstitutionResidentId == institutionResidentId)
                     .OrderByDescending(rs => rs.StartDateTimeUtc)
                     .Take(numberOfShifts);
+                return Mapper.Map(data);
             };
             return RetrieveMany(resolver);
         }        
@@ -72,21 +75,23 @@ namespace DutyHours.Data.Repsitories
         /// </summary>
         /// <param name="model"></param>
         /// <returns></returns>
-        public ResponseModel<ResidentShift> Save(ResidentShift model)
+        public ResponseModel<ResidentShiftModel> Save(ResidentShiftModel model)
         {
-            Func<ResidentShift> resolver = () =>
+            
+            Func<ResidentShiftModel> resolver = () =>
             {
+                var data = Mapper.Map(model);
                 if (model.Id > 0)
                 {
-                    DhDataContext.ResidentShifts.Attach(model);
+                    DhDataContext.ResidentShifts.Attach(data);
                 }
                 else
                 {
-                    DhDataContext.ResidentShifts.Add(model);
+                    DhDataContext.ResidentShifts.Add(data);
                 }
 
                 DhDataContext.SaveChanges();
-                return model;
+                return Mapper.Map(data);
             };
 
             return Persist(resolver);
@@ -97,11 +102,12 @@ namespace DutyHours.Data.Repsitories
         /// </summary>
         /// <param name="model"></param>
         /// <returns></returns>
-        public ResponseModel Delete(ResidentShift model)
+        public ResponseModel Delete(ResidentShiftModel model)
         {
             Action resolver = () =>
             {
-                DhDataContext.ResidentShifts.Remove(model);
+                var data = Mapper.Map(model);
+                DhDataContext.ResidentShifts.Remove(data);
                 DhDataContext.SaveChanges();
             };
             return Persist(resolver);

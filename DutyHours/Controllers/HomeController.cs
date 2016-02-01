@@ -7,7 +7,7 @@ namespace DutyHours.Controllers
         public ActionResult Index()
         {
             ViewBag.Title = "Duty Hours | Home";
-            return View();
+            return View("ResidentCalendar");
         }
 
         public ActionResult ResidentCalendar()

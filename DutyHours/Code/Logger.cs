@@ -17,15 +17,8 @@ namespace DutyHours.Code
         /// <param name="ex"></param>
         public void Write(Exception ex)
         {
-            var source = "Duty Hours";
-
-            //check for and create if needed, the source within the application log 
-            if (!EventLog.SourceExists(source))
-            {
-                EventLog.CreateEventSource(source, "Application");
-            }
-
             var log = new EventLog();
+            log.Source = "Application";
             log.WriteEntry(ex.Message, EventLogEntryType.Error);
         }
     }

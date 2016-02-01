@@ -1,6 +1,5 @@
 ﻿using DutyHours.Data.Repsitories;
 using DutyHours.Models;
-using DutyHours.Models.Data;
 using DutyHours.Models.Exceptions;
 using System;
 using System.Collections.Generic;
@@ -31,14 +30,14 @@ namespace DutyHours.Services
         /// <param name="shift"></param>
         /// <param name="overrideAcknowledged">Indication the user has chosen to overwrite existing shifts</param>
         /// <returns></returns>
-        public ResponseModel<IEnumerable<ResidentShift>> SaveShift(ResidentShift shift, bool overrideAcknowledged = false)
+        public ResponseModel<IEnumerable<ResidentShiftModel>> SaveShift(ResidentShiftModel shift)
         {
-            Func<IEnumerable<ResidentShift>> func = () =>
+            Func<IEnumerable<ResidentShiftModel>> func = () =>
             {
-                var shifts = _residentRepo.FindShiftsByResidentId(shift.InstitutionResident.UserId).Result.ToList();
+                var shifts = _residentRepo.FindShiftsByResidentId(shift.InstitutionResidentId).Result.ToList();
                 var conflicts = shifts.Where(s => DoesShiftConflict(s, shift)).ToList();
 
-                if (conflicts.Any() && !overrideAcknowledged)
+                if (conflicts.Any() && !shift.OverrideAcknowleded)
                 {
                     throw new ShiftConflictException()
                     {
@@ -52,10 +51,10 @@ namespace DutyHours.Services
                     _residentRepo.Save(shift);
                 }
 
-                return _residentRepo.FindShiftsByResidentId(shift.InstitutionResident.UserId).Result;
+                return _residentRepo.FindShiftsByResidentId(shift.InstitutionResidentId).Result;
             };
 
-            return Execute<IEnumerable<ResidentShift>>(func);
+            return Execute<IEnumerable<ResidentShiftModel>>(func);
         }
 
         /// <summary>
@@ -64,16 +63,16 @@ namespace DutyHours.Services
         /// <param name="existing"></param>
         /// <param name="unsaved"></param>
         /// <returns></returns>
-        private bool DoesShiftConflict(ResidentShift existing, ResidentShift unsaved)
+        private bool DoesShiftConflict(ResidentShiftModel existing, ResidentShiftModel unsaved)
         {
-            if(unsaved.StartDateTimeUtc >= existing.StartDateTimeUtc && 
-                (!existing.EndDateTimeUtc.HasValue || unsaved.StartDateTimeUtc <= existing.EndDateTimeUtc.Value))
+            if(unsaved.StartDateTime>= existing.StartDateTime && 
+                (!existing.EndDateTime.HasValue || unsaved.StartDateTime <= existing.EndDateTime.Value))
             {
                 return true;
             }
 
-            if (unsaved.EndDateTimeUtc.HasValue && unsaved.EndDateTimeUtc.Value >= existing.StartDateTimeUtc &&
-                existing.EndDateTimeUtc.HasValue && unsaved.EndDateTimeUtc.Value <= existing.EndDateTimeUtc.Value)
+            if (unsaved.EndDateTime.HasValue && unsaved.EndDateTime.Value >= existing.StartDateTime &&
+                existing.EndDateTime.HasValue && unsaved.EndDateTime.Value <= existing.EndDateTime.Value)
             {
                 return true;
             }

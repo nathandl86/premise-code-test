@@ -30,8 +30,7 @@
 
         var service = {
             success: success,
-            error: error,
-            info: info
+            error: error
         }
 
         return service;
