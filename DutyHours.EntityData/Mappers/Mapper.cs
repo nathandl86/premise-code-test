@@ -141,7 +141,9 @@ namespace DutyHours.EntityData.Mappers
             return new ResidentShiftModel
             {
                 Id = data.Id,
-                EndDateTime = data.EntryDateTimeUtc,
+                // NOTE: THIS SECTION CONTAINS CHANGES ADDED AFTER THE 
+                //    DEADLINE, TO RESOLVE BUG PERSISTING TIME ENTRIES
+                EndDateTime = data.EndDateTimeUtc,
                 StartDateTime = data.StartDateTimeUtc,
                 EntryDateTime = data.EntryDateTimeUtc,
                 InstitutionResidentId = data.InstitutionResidentId

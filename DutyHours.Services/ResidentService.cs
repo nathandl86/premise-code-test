@@ -1,4 +1,5 @@
-﻿using DutyHours.EntityData.Repsitories;
+﻿using DutyHours.EntityData.Mappers;
+using DutyHours.EntityData.Repsitories;
 using DutyHours.Models;
 using DutyHours.Models.Exceptions;
 using System;
@@ -30,9 +31,11 @@ namespace DutyHours.Services
         /// <param name="shift"></param>
         /// <param name="overrideAcknowledged">Indication the user has chosen to overwrite existing shifts</param>
         /// <returns></returns>
-        public ResponseModel<IEnumerable<ResidentShiftModel>> SaveShift(ResidentShiftModel shift)
+        public ResponseModel<Tuple<ResidentShiftModel, IEnumerable<ResidentShiftModel>>> SaveShift(ResidentShiftModel shift)
         {
-            Func<IEnumerable<ResidentShiftModel>> func = () =>
+            // NOTE: THIS SECTION CONTAINS CHANGES ADDED AFTER THE 
+            //    DEADLINE, TO RESOLVE BUG PERSISTING TIME ENTRIES
+            Func<Tuple<ResidentShiftModel, IEnumerable<ResidentShiftModel>>> func = () =>
             {
                 var shifts = _residentRepo.FindShiftsByResidentId(shift.InstitutionResidentId).Result.ToList();
                 var conflicts = shifts.Where(s => DoesShiftConflict(s, shift)).ToList();
@@ -46,15 +49,21 @@ namespace DutyHours.Services
                 }
 
                 using (var scope = new TransactionScope())
-                {
+                {                    
                     conflicts.ForEach(c => _residentRepo.Delete(c));
-                    _residentRepo.Save(shift);
+                    var response = _residentRepo.Save(shift);
+                    if (!response.HasError)
+                    {
+                        shift = response.Result;
+                    }
+                    
+                    scope.Complete();
                 }
-
-                return _residentRepo.FindShiftsByResidentId(shift.InstitutionResidentId).Result;
+                shifts = _residentRepo.FindShiftsByResidentId(shift.InstitutionResidentId).Result.ToList();
+                return new Tuple<ResidentShiftModel, IEnumerable<ResidentShiftModel>>(shift, shifts);
             };
 
-            return Execute<IEnumerable<ResidentShiftModel>>(func);
+            return Execute(func);
         }
 
         /// <summary>

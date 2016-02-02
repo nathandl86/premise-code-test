@@ -80,7 +80,20 @@ namespace DutyHours.EntityData.Repsitories
             {
                 var data = Mapper.Map(model);
 
-                DhDataContext.Entry(data).State = data.Id == 0 ? EntityState.Added : EntityState.Modified;
+                // NOTE: THIS SECTION CONTAINS CHANGES ADDED AFTER THE 
+                //    DEADLINE, TO RESOLVE BUG PERSISTING TIME ENTRIES
+                if (data.Id > 0)
+                {
+                    var dataEntity = DhDataContext.ResidentShifts.FirstOrDefault(e => e.Id == data.Id);
+                    dataEntity.StartDateTimeUtc = data.StartDateTimeUtc;
+                    dataEntity.EndDateTimeUtc = data.EndDateTimeUtc;
+                    DhDataContext.Entry(dataEntity).State = EntityState.Modified;    
+                }
+                else
+                {
+                    DhDataContext.ResidentShifts.Add(data);
+                }
+                
                 DhDataContext.SaveChanges();
 
                 var affectedRecords = DhDataContext.SaveChanges();

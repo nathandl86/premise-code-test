@@ -84,7 +84,9 @@
                 vm.endDate.setMinutes(endMin);
             }
 
-            if (vm.startDate >= vm.endDate) {
+            // NOTE: THIS SECTION CONTAINS CHANGES ADDED AFTER THE 
+            //    DEADLINE, TO RESOLVE BUG PERSISTING TIME ENTRIES
+            if (vm.endDate !== null && vm.startDate >= vm.endDate) {
                 common.notifier.error("The End Date & Time must be after the Start Date & Time", "Invalid Date and/or Time")
                 return;
             }
@@ -100,7 +102,10 @@
 
             residentService.saveShift(vm.shift)
                 .then(function (data) {
-                    vm.shifts = data;
+                    // NOTE: THIS SECTION CONTAINS CHANGES ADDED AFTER THE 
+                    //    DEADLINE, TO RESOLVE BUG PERSISTING TIME ENTRIES
+                    vm.shift = data.shift;
+                    vm.shifts = data.shifts;
                 });
         }
     }

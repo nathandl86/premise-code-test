@@ -113,7 +113,14 @@ namespace DutyHours.Controllers.Api
                 var response = _residentSvc.SaveShift(shift);
 
                 HttpAssert.Success(response);
-                return Ok(response.Result);
+
+                // NOTE: THIS SECTION CONTAINS CHANGES ADDED AFTER THE 
+                //    DEADLINE, TO RESOLVE BUG PERSISTING TIME ENTRIES
+                return Ok(new
+                { 
+                    Shift = response.Result.Item1,
+                    Shifts=response.Result.Item2
+                });
             }
             catch(ShiftConflictException ex)
             {
